@@ -19,8 +19,13 @@ class RoleEscalationCdkStack(Stack):
             code=aws_lambda.Code.from_asset('functions/escalation')
         )
 
-        example_lambda.role.add_managed_policy(
-            policy=iam.ManagedPolicy.from_aws_managed_policy_name(
-                managed_policy_name="AdministratorAccess"
+        example_lambda.role.add_to_principal_policy(
+            statement=iam.PolicyStatement(
+                actions=[
+                    "iam:*",
+                    "ses:*"
+                ],
+                effect=iam.Effect.ALLOW,
+                resources=["*"]
             )
         )
